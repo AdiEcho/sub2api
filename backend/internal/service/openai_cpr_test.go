@@ -940,18 +940,18 @@ func TestCPRTransientUpstreamErrorEntersCooldown(t *testing.T) {
 			rateLimits.SetAccountRuntimeBlocker(svc)
 
 			cpr := newCPRTestAccount()
-			require.False(t, svc.isOpenAIAccountRequestRuntimeBlocked(cpr, model))
+			require.False(t, svc.isOpenAIAccountRequestRuntimeBlocked(cpr, model, false))
 
 			// 冷却在连续第 2 次失败才生效（recordFailure: streak>=2 才给 blockUntil），
 			// 第 1 次只记流水——单次抖动不该把账号踢出候选。
 			svc.handleOpenAIAccountUpstreamError(context.Background(), cpr, status, http.Header{}, nil, model)
-			require.False(t, svc.isOpenAIAccountRequestRuntimeBlocked(cpr, model), "单次失败不冷却")
+			require.False(t, svc.isOpenAIAccountRequestRuntimeBlocked(cpr, model, false), "单次失败不冷却")
 			svc.handleOpenAIAccountUpstreamError(context.Background(), cpr, status, http.Header{}, nil, model)
 
-			require.True(t, svc.isOpenAIAccountRequestRuntimeBlocked(cpr, model),
+			require.True(t, svc.isOpenAIAccountRequestRuntimeBlocked(cpr, model, false),
 				"网关 %d 后必须冷却，否则调度器会反复选中同一个 cpr 账号把 failover 预算烧光", status)
 			// 只冷却出问题的模型，其余模型照常。
-			require.False(t, svc.isOpenAIAccountRequestRuntimeBlocked(cpr, "gpt-5.6-luna"))
+			require.False(t, svc.isOpenAIAccountRequestRuntimeBlocked(cpr, "gpt-5.6-luna", false))
 		})
 	}
 }

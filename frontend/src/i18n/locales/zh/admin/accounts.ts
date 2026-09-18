@@ -752,6 +752,11 @@ export default {
           + '要与该账号使用者的真实系统一致：UA 报 Windows、请求体里却是 Linux 路径和 shell，两者互相矛盾。'
           + '版本号会被网关统一改写为生效版本，填什么都一样。',
         codexUserAgentPlaceholder: '留空使用全局设置',
+        codexTurnTicket: 'Codex 292 门票',
+        codexTurnTicketDesc: '显示已配置模型的门票状态。仅在启用缺票拦截时，没有有效门票的模型才会暂停调度。',
+        codexTurnTicketMissing: '暂无有效门票，仍允许请求',
+        codexTurnTicketReady: '剩余 {time}',
+        codexTurnTicketPaused: '未打到 292，该模型已暂停',
         codexImageTool: 'Codex 图片桥接策略',
         codexImageToolDesc:
           '统一控制 Codex /responses 文本请求的 hosted image_generation 桥接和客户端图片工具声明。hosted 工具自动注入仅适用于非 Responses Lite 请求；账号级策略优先于渠道和全局配置，不影响独立图片生成接口。',

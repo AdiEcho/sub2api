@@ -198,8 +198,8 @@ func (s *OpenAIGatewayService) openAICodexTurnStateMintedByOther(c *gin.Context,
 }
 
 // guardOpenAICodexTurnStateEcho 出站守卫：客户端回带的 turn-state 若已知由其他凭证域铸造
-// 则剥离，同身份或无溯源记录时保持原样。只剥离、不注入——真实 Codex 客户端会按自身回合
-// 语义自行回带；服务端注入是 Claude 兼容桥（无法回带的客户端）的专属行为。
+// 则剥离，同身份或无溯源记录时保持原样。守卫只剥离，不负责注入；账号手工覆写
+// 和启用后的 Codex 292 门票在守卫之后应用。
 func (s *OpenAIGatewayService) guardOpenAICodexTurnStateEcho(c *gin.Context, account *Account, h http.Header) {
 	if s == nil || h == nil {
 		return
